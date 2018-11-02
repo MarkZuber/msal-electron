@@ -26,57 +26,38 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Identity.MsalApiClient.Api;
-using Microsoft.Identity.MsalApiClient.Client;
-using Microsoft.Identity.MsalApiClient.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Microsoft.Identity.MsalApiClient.App
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             Console.WriteLine("Starting...");
             Console.WriteLine("Press ENTER to proceed...");
             Console.ReadLine();
 
-            var apiClient = new ApiClient("https://localhost:44346/v2");
+            var pca = new PublicClientApplicationProxy(
+                "d3590ed6-52b3-4102-aeff-aad2292ab01c",
+                "https://login.microsoftonline.com/organizations");
 
-            var api = new PublicClientApi(apiClient);
-            var config = new MsalClientConfiguration
-            {
-                DefaultAuthority = "https://login.microsoftonline.com/organizations",
-                DefaultClientId = "d3590ed6-52b3-4102-aeff-aad2292ab01c"
-            };
+            var authResult = await pca.AcquireTokenByInteractiveWindowsAuthAsync(
+                                 "https://localhost:5001",
+                                 new List<string>
+                                 {
+                                     "https://graph.microsoft.com/.default"
+                                 },
+                                 "mzuber@microsoft.com");
 
-            Console.WriteLine("Creating PCA");
-            var createResult = api.CreatePca(config);
-            Console.WriteLine($"PCA Created: {createResult.PcaId}");
+            Console.WriteLine(
+                authResult.IsError.GetValueOrDefault(false)
+                    ? $"FAILURE: {authResult.AccessToken}"
+                    : $"SUCCESS: {authResult.AccessToken}");
 
-            var authParams = new MsalAuthParameters
-            {
-                ClientApplicationId = createResult.PcaId,
-                AuthorizationType = "Interactive",
-                RedirectUri = "https://localhost:5001",
-                RequestedScopes = "https://graph.microsoft.com/.default",
-                Username = "mzuber@microsoft.com"
-            };
-
-            Console.WriteLine($"Calling AcquireToken: {authParams.ToJson()}");
-            var authResult = api.AcquireTokenInteractive(authParams);
-            Console.WriteLine("Received AuthResult");
-
-            if (authResult.IsError.GetValueOrDefault(false))
-            {
-                // hack: putting error description in accesstoken since we don't have error codes here...
-                Console.WriteLine($"FAILURE: {authResult.AccessToken}");
-            }
-            else
-            {
-                Console.WriteLine($"SUCCESS: {authResult.AccessToken}");
-            }
-
-            Console.WriteLine(".");
+            Console.WriteLine();
+            Console.WriteLine("Press ENTER to exit...");
             Console.ReadLine();
         }
     }
