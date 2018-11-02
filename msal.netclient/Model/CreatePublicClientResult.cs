@@ -25,21 +25,44 @@
 // 
 // ------------------------------------------------------------------------------
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System.Runtime.Serialization;
+using System.Text;
+using Newtonsoft.Json;
 
-namespace Microsoft.Identity.MsalApiServer
+namespace Microsoft.Identity.MsalApiClient.Model
 {
-    public class Program
+    /// <summary>
+    /// </summary>
+    [DataContract]
+    public class CreatePublicClientResult
     {
-        public static void Main(string[] args)
+        /// <summary>
+        ///     Gets or Sets PcaId
+        /// </summary>
+        [DataMember(Name = "pcaId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pcaId")]
+        public string PcaId { get; set; }
+
+        /// <summary>
+        ///     Get the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var sb = new StringBuilder();
+            sb.Append("class CreatePublicClientResult {\n");
+            sb.Append("  PcaId: ").Append(PcaId).Append("\n");
+            sb.Append("}\n");
+            return sb.ToString();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        /// <summary>
+        ///     Get the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public string ToJson()
         {
-            return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }
