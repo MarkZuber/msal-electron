@@ -1,0 +1,48 @@
+{
+    "version": "0.1.0",
+    "tasks": [{
+            "taskName": "build",
+            "command": "npm",
+            "isShellCommand": true,
+            "args": [
+                "run",
+                "compile"
+            ],
+            "showOutput": "always",
+            "isBuildCommand": true
+        },
+        {
+            "taskName": "test",
+            "command": "echo",
+            "showOutput": "always",
+            "isShellCommand": true,
+            "args": [
+                "Run tests in VS Code by launching the debugger with the 'Launch Tests' configuration."
+            ],
+            "isTestCommand": true
+        },
+        {
+            "taskName": "tslint",
+            "command": "gulp",
+            "isShellCommand": true,
+            "args": [
+                "tslint"
+            ],
+            "problemMatcher": {
+                "owner": "tslint",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "severity": "warning",
+                "pattern": {
+                    "regexp": "^\\[tslint\\] (.*):(\\d+):(\\d+):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                }
+            }
+        }
+    ]
+}

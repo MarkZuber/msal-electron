@@ -1,0 +1,38 @@
+{
+    "name": "msal-electron-prototype",
+    "displayName": "MSAL Electron Prototype",
+    "version": "0.1.0",
+    "publisher": "microsoft",
+    "description": "MSAL Electron prototype for verifying we can do electron -> MSAL.NET authentication.",
+    "author": {
+        "name": "markzuber"
+    },
+    "categories": [
+        "Other"
+    ],
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "icon": "images/icon.png",
+    "galleryBanner": {
+        "color": "#C80000",
+        "theme": "dark"
+    },
+    "activationEvents": [
+        "onLanguage:markdown"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/azuread/vscode-msal-electron.git"
+    },
+    "engines": {
+        "vscode": "0.10.x"
+    },
+    "main": "./out/extension",
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+    },
+    "devDependencies": {
+        "vscode": "0.10.x",
+        "typescript": "^1.6.2"
+    }
+}
