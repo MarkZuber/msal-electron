@@ -17,6 +17,7 @@
         "theme": "dark"
     },
     "activationEvents": [
+        "onCommand:extension.authUser",
         "onLanguage:markdown"
     ],
     "repository": {
@@ -27,6 +28,12 @@
         "vscode": "0.10.x"
     },
     "main": "./out/extension",
+    "contributes": {
+        "commands": [{
+            "command": "extension.authUser",
+            "title": "MSAL Auth User"
+        }]
+    },
     "scripts": {
         "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
         "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
